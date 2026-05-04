@@ -41,8 +41,13 @@ COUNTRY_TO_CODES = {}
 for code, name in NATION_MAP.items():
     COUNTRY_TO_CODES.setdefault(name.lower(), []).append(code)
 
-# Runtime position corrections (FBref label != national team role)
-POSITION_OVERRIDES = {
+# Players no longer elibile for wc26 for a variety of reasons
+EXCLUSIONS = {
+    "manuel neuer",    
+    "diogo jota",      
+    "hugo ekitike",    
+    "hugo lloris",
+}
     "nathaniel clyne": "DF", "marcus rashford": "FW",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
     "kai havertz":     "FW", "joshua kimmich":  "DF",
@@ -50,6 +55,7 @@ POSITION_OVERRIDES = {
     "claudio falcão":  "DF", "yan couto":       "DF",
     "vitor costa":     "DF",
 }
+
 
 # Score multipliers for players whose stats are suppressed by injury/move
 REPUTATION_BOOSTS = {
