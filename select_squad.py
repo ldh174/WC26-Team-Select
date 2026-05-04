@@ -41,13 +41,15 @@ COUNTRY_TO_CODES = {}
 for code, name in NATION_MAP.items():
     COUNTRY_TO_CODES.setdefault(name.lower(), []).append(code)
 
-# Players no longer elibile for wc26 for a variety of reasons
+# Players who are not eligible for a variety of reasons
 EXCLUSIONS = {
     "manuel neuer",    
-    "diogo jota",      
-    "hugo ekitike",    
-    "hugo lloris",
+    "diogo jota",      # rip
+    "hugo ekitike", 
+    "hugo lloris",  
 }
+
+POSITION_OVERRIDES = {
     "nathaniel clyne": "DF", "marcus rashford": "FW",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
     "kai havertz":     "FW", "joshua kimmich":  "DF",
@@ -55,7 +57,6 @@ EXCLUSIONS = {
     "claudio falcão":  "DF", "yan couto":       "DF",
     "vitor costa":     "DF",
 }
-
 
 # Score multipliers for players whose stats are suppressed by injury/move
 REPUTATION_BOOSTS = {
@@ -97,6 +98,7 @@ def get_candidate_pool(df, country, season=None):
         raise ValueError(f"Unknown country: {country}")
 
     pool = df[df["nation"].isin(codes)].copy()
+    pool = pool[~pool["player"].str.lower().isin(EXCLUSIONS)]
     if season:
         pool = pool[pool["season"] == str(season)]
 
