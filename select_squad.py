@@ -214,6 +214,12 @@ def run_all():
     if failed:
         print(f"Failed: {failed}")
 
+    if results:
+        combined = pd.concat(results.values(), ignore_index=True)
+        combined_path = os.path.join(OUT_DIR, "squads_combined.csv")
+        combined.to_csv(combined_path, index=False)
+        print(f"Combined: {combined_path}  ({len(combined)} rows)")
+
 
 def main():
     parser = argparse.ArgumentParser(description="WC26 squad selector")
