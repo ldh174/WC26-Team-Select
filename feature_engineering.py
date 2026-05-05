@@ -32,7 +32,7 @@ OVERRIDES = {
     "nathaniel clyne": "DF", "marcus rashford": "FW",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
     # germany
-    "kai havertz": "FW", "joshua kimmich": "DF",
+    "kai havertz": "FW",
     # argentina
     "marcelo herrera": "DF", "nahuel molina": "DF",
     # brazil
@@ -53,9 +53,19 @@ OVERRIDES = {
     "brahim díaz": "FW",
     # portugal
     "bernardo silva": "FW", "nuno mendes": "DF", "flávio nazinho": "DF",
-    # france/spain
-    "désiré doué": "FW", "lamine yamal": "FW", "nico williams": "FW",
-    "rayan cherki": "MF", "pedri": "MF", "gavi": "MF",
+    "raphaël guerreiro": "DF", "diogo dalot": "DF",
+    # france
+    "désiré doué": "FW", "rayan cherki": "MF",
+    # spain
+    "lamine yamal": "FW", "nico williams": 
+    "FW","marcos llorente": "DF", "sergio gómez": "DF",
+    "pedri": "MF", "gavi": "MF",
+    # usa
+    "joe scally": "DF",
+    # netherlands
+    "denzel dumfries": "DF",
+    # croatia
+    "borna sosa": "DF", "duje ćaleta-car": "DF",
     # misc
     "luca langoni": "DF",
 }

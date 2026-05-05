@@ -106,7 +106,6 @@ class TitleScreen(ctk.CTkFrame):
             widget.destroy()
 
         selected_codes = {COUNTRY_MAP[n] for n, v in self.country_vars.items() if v.get()}
-
         selected_pos = {pos for pos, v in self.pos_vars.items() if v.get()}
         if not selected_pos:
             selected_pos = set(POSITIONS)
@@ -167,39 +166,16 @@ class TitleScreen(ctk.CTkFrame):
 
         df = pd.read_csv(filename)
 
-        def top_n(pos, n):
-            return df[df["position_group"] == pos].sort_values("weighted_score", ascending=False).head(n)
+        # 4-3-3 formation
+        STARTER_COUNTS = {"GK": 1, "DF": 4, "MF": 3, "FW": 3}
+        starters = {pos: df[df["position_group"] == pos]
+                        .sort_values("weighted_score", ascending=False)
+                        .head(n)
+                    for pos, n in STARTER_COUNTS.items()}
+        starter_idx = pd.concat(starters.values()).index
 
-        starters = {
-            "FW": top_n("FW", 3),
-            "MF": top_n("MF", 3),
-            "DF": top_n("DF", 4),
-            "GK": top_n("GK", 1),
-        }
-        starter_indices = pd.concat(starters.values()).index
-
-        remaining = df[~df.index.isin(starter_indices)].copy()
-
-        subs = []
-        sub_indices = set()
-
-        for pos, min_count in MIN_SUBS.items():
-            pool = remaining[remaining["position_group"] == pos].sort_values("weighted_score", ascending=False).head(min_count)
-            subs.append(pool)
-            sub_indices.update(pool.index)
-
-        already_used = starter_indices.tolist() + list(sub_indices)
-        fill_pool = df[~df.index.isin(already_used)].sort_values("weighted_score", ascending=False)
-        spots_left = 15 - len(sub_indices)
-        if spots_left > 0:
-            filler = fill_pool.head(spots_left)
-            subs.append(filler)
-            sub_indices.update(filler.index)
-
-        subs_df = pd.concat(subs).sort_values("weighted_score", ascending=False)
-
-        all_used = starter_indices.tolist() + list(sub_indices)
-        alternates_df = df[~df.index.isin(all_used)].sort_values("weighted_score", ascending=False)
+        subs_df       = df[~df.index.isin(starter_idx) & df["role"].isin(["starter","backup","sub"])].sort_values("weighted_score", ascending=False)
+        alternates_df = df[df["role"] == "alternate"].sort_values("weighted_score", ascending=False)
 
         self._render_formation(starters)
         self._render_section("SUBS", subs_df)
@@ -226,7 +202,6 @@ class TitleScreen(ctk.CTkFrame):
             self.team_scroll, text="── STARTING XI ──",
             font=("calibri", 15, "bold"), text_color="#0077BE"
         ).pack(pady=(10, 4))
-
         for pos in ["FW", "MF", "DF", "GK"]:
             self._formation_row(starters[pos])
 
@@ -235,7 +210,6 @@ class TitleScreen(ctk.CTkFrame):
             self.team_scroll, text=f"── {title} ──",
             font=("calibri", 15, "bold"), text_color="#0077BE"
         ).pack(pady=(14, 4))
-
         for pos in ["GK", "DF", "MF", "FW"]:
             group = players_df[players_df["position_group"] == pos]
             if group.empty:
@@ -252,11 +226,12 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("World Cup Squad Selector")
-        self.geometry("800x600")
+        self.geometry("1280x960")
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.title_frame = TitleScreen(master=self)
         self.title_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+
 
 app = App()
 app.mainloop()

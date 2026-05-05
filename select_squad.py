@@ -46,11 +46,33 @@ EXCLUSIONS = {
     "manuel neuer", "thomas müller", "james milner", "antoine griezmann",
     "ángel di maría", "daley blind", "luuk de jong", "simon mignolet",
     "milan badelj", "iago aspas", "hugo lloris", "karim benzema",
+    "dejan lovren", "david ospina",
     # rip
     "diogo jota",
+    # not NT regulars
+    "noah atubolu", "robert-jan vanwesemael",
+    "maximiliano moralez", "mauro icardi",
+    "jean butez",
+    "jizz hornkamp",
+    "takahiro akimoto",
+    "m'baye niang",
+    "gonçalo paciência",
+    "michy batshuayi",
+    "marcus coco", "djibril sidibé", "soungoutou magassa", "lilian raolisoa",
+    "lewis cook", "james garner",
+    "diego rico", "aitor ruibal", "césar azpilicueta",
+    "pedro bicalho", "junior messias",
+    "joão mendes", "zé carlos", "manuel manu",
+    "bamba dieng", "emre can", "thilo kehrer",
+    "milan iloski", "jonathan dean", "sebastian berhalter",
+    "maya yoshida",
     # injured / unavailable
     "hugo ekitike", "juan foyth", "takumi minamino", "rodrygo",
     "serge gnabry", "xavi simons", "éder militão", "rodri",
+    "iglesias", "kike salas", "yarek gasiorowski",
+    "kyle smith", "cristian roldan", "max arfsten",
+    "lukas kübler", "dominik kohr", "matthias ginter",
+    "marc-andré ter stegen",
 }
 
 POSITION_OVERRIDES = {
@@ -58,7 +80,7 @@ POSITION_OVERRIDES = {
     "nathaniel clyne": "DF", "marcus rashford": "FW",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
     # germany
-    "kai havertz": "FW", "joshua kimmich": "DF",
+    "kai havertz": "FW",
     # argentina
     "marcelo herrera": "DF", "nahuel molina": "DF",
     # brazil
@@ -73,13 +95,19 @@ POSITION_OVERRIDES = {
     "josip juranović": "DF",
     # colombia
     "daniel muñoz": "DF",
+    # spain
+    "marcos llorente": "DF", "sergio gómez": "DF",
+    # usa
+    "joe scally": "DF",  
+    # croatia
+    "borna sosa": "DF", "duje ćaleta-car": "DF",
     # senegal
     "ismaila sarr": "FW", "el hadji malick diouf": "DF",
     # morocco
     "brahim díaz": "FW",
-    # portugal — fbref tags as MF but plays RB
+    # portugal 
     "bernardo silva": "FW", "nuno mendes": "DF",
-    "flávio nazinho": "DF",
+    "flávio nazinho": "DF", "raphaël guerreiro": "DF", "diogo dalot": "DF",
     # france/spain
     "désiré doué": "FW", "lamine yamal": "FW", "nico williams": "FW",
     # misc fbref inconsistencies
@@ -87,39 +115,125 @@ POSITION_OVERRIDES = {
 }
 
 REPUTATION_BOOSTS = {
-    # germany
-    "marc-andré ter stegen": 1.25, "florian wirtz": 1.25,
-    "kai havertz": 1.20, "phil foden": 1.15, "declan rice": 1.15,
-    # croatia
-    "luka modrić": 1.20, "dominik livaković": 1.20, "josip juranović": 1.20,
-    # france
-    "rayan cherki": 1.20, "michael olise": 1.15, "désiré doué": 1.15,
-    "eduardo camavinga": 1.15,
-    # spain
-    "lamine yamal": 1.20, "nico williams": 1.15, "pedri": 1.20,
-    "gavi": 1.25, "fermín lópez": 1.15, "pau cubarsí": 1.20,
-    # argentina
-    "rodrigo de paul": 1.15, "nahuel molina": 1.15,
+    # argentina 
+    "rodrigo de paul":      1.15,
+    "nahuel molina":        1.15,
+    "lisandro martínez":    1.10,  
+    "julián álvarez":       1.15,  
+    "alexis mac allister":  1.05,  
+    "enzo fernández":       1.05,  
+    # france 
+    "ibrahima konaté":      1.05,  
+    "william saliba":       1.06,  
+    "rayan cherki":         1.20,
+    "michael olise":        1.15,
+    "désiré doué":          1.15,
+    "eduardo camavinga":    1.15,
+    # england
+    "reece james":          1.25,
+    "john stones":          1.20,
+    "jude bellingham":      1.10,
+    "anthony gordon":       1.30,
+    "phil foden":           1.15,
+    "declan rice":          1.15,
+    # spain 
+    "lamine yamal":         1.20,
+    "nico williams":        1.15,
+    "pedri":                1.20,
+    "gavi":                 1.25,
+    "fermín lópez":         1.15,
+    "pau cubarsí":          1.20,
+    "aymeric laporte":      1.20,
+    "dani olmo":            1.20,  
+    "mikel oyarzabal":      1.25,  
+    # brazil 
+    "alisson":              1.05,  
+    "ederson":              1.15,
+    "marquinhos":           1.20, 
+    "caio henrique oliveira silva": 1.10,  
+    "gabriel magalhães":    1.15,
+    "lucas paquetá":        1.15,
+    "bruno guimarães":      1.05, 
+    "vinicius júnior":      1.10,  
+    # portugal 
+    "vitinha":              1.80,  
+    "joão neves":           1.60,  
+    "bernardo silva":       1.20,
+    "rafael leão":          1.05,
+    "gonçalo inácio":       1.10,
+    "nuno mendes":          1.15,
     # belgium
-    "thibaut courtois": 1.90, "amadou onana": 1.15,  # courtois — full ACL wipeout 2526
-    "romelu lukaku": 1.15, "kevin de bruyne": 1.15,
-    # brazil
-    "ederson": 1.15, "gabriel magalhães": 1.15, "lucas paquetá": 1.15,
-    # colombia
-    "james rodríguez": 1.20,
+    "thibaut courtois":     1.12,  
+    "arthur theate":        1.08,
+    "amadou onana":         1.25, 
+    "romelu lukaku":        1.10,
+    "kevin de bruyne":      1.15,
     # netherlands
-    "bart verbruggen": 1.20, "tijjani reijnders": 1.20, "frenkie de jong": 1.15,
-    "micky van de ven": 1.15,
-    # portugal
-    "vitinha": 1.20, "joão neves": 1.20, "bernardo silva": 1.20, "nuno mendes": 1.15,
+    "bart verbruggen":      1.20,
+    "ryan gravenberch":     1.14,
+    "tijjani reijnders":    1.12,
+    "denzel dumfries":      1.20,
+    "frenkie de jong":      1.15,
+    "micky van de ven":     1.15,
+    "memphis":              1.05,
+    # germany 
+    "marc-andré ter stegen": 1.05,  
+    "florian wirtz":        1.25,
+    "oliver baumann":       1.20,  
+    "jonathan tah":         1.20,
+    "david raum":           1.15,
+    "nico schlotterbeck":   1.15,
+    "kai havertz":          1.20,
+    "joshua kimmich":       1.16,
+    "jamal musiala":        1.05,
+    "leroy sané":           1.16,
+    # colombia 
+    "james rodríguez":      1.30,  
+    "johan mojica":         1.12,
+    "jhon arias":           1.05,
     # morocco
-    "brahim díaz": 2.00, "bilal el khannouss": 1.30, "nayef aguerd": 1.20,
-    # senegal
-    "ismaila sarr": 1.25, "sadio mané": 1.15,
-    # japan
-    "wataru endo": 1.20, "hiroki ito": 1.15,
+    "brahim díaz":          2.00,
+    "bilal el khannouss":   1.30,
+    "nayef aguerd":         1.20,
+    "issa diop":            1.05,
+    "neil el aynaoui":      1.15,
+    "abde ezzalzouli":      1.05,
+    "ayoub el kaabi":       1.08,
     # usa
-    "yunus musah": 1.20, "weston mckennie": 1.15, "timothy weah": 1.15,
+    "matt turner":          1.16,
+    "tyler adams":          1.10,
+    "yunus musah":          1.25,  
+    "weston mckennie":      1.15,
+    "timothy weah":         1.15,
+    "folarin balogun":      1.05,
+    "christian pulisic":    1.20,  
+    # japan
+    "zion suzuki":          1.30,
+    "koki machida":         1.06,
+    "hiroki ito":           1.15,
+    "shogo taniguchi":      1.12,
+    "tsuyoshi watanabe":    1.10,
+    "wataru endo":          1.20,
+    "kaoru mitoma":         1.15,  
+    "takefusa kubo":        1.12,
+    "endrick":              1.40,  
+    "loïs openda":          1.15,  
+    "takehiro tomiyasu":    1.12,  
+    # croatia
+    "luka modrić":          1.20,
+    "dominik livaković":    1.30,
+    "josip juranović":      1.20,
+    "duje ćaleta-car":      1.12,
+    "borna sosa":           1.20,
+    "mario pašalić":        1.05,
+    "nikola vlašić":        1.05,
+    # senegal 
+    "ismaila sarr":         1.50,  
+    "sadio mané":           1.15,
+    "ismail jakobs":        1.10,
+    "pape matar sarr":      1.05,
+    "lamine camara":        1.06,
+    "nicolas jackson":      1.06,
 }
 
 
