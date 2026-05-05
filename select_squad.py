@@ -41,31 +41,85 @@ COUNTRY_TO_CODES = {}
 for code, name in NATION_MAP.items():
     COUNTRY_TO_CODES.setdefault(name.lower(), []).append(code)
 
-# Players who are not eligible for a variety of reasons
 EXCLUSIONS = {
-    "manuel neuer",    
-    "diogo jota",      # rip
-    "hugo ekitike", 
-    "hugo lloris",  
+    # retired
+    "manuel neuer", "thomas müller", "james milner", "antoine griezmann",
+    "ángel di maría", "daley blind", "luuk de jong", "simon mignolet",
+    "milan badelj", "iago aspas", "hugo lloris", "karim benzema",
+    # rip
+    "diogo jota",
+    # injured / unavailable
+    "hugo ekitike", "juan foyth", "takumi minamino", "rodrygo",
+    "serge gnabry", "xavi simons", "éder militão", "rodri",
 }
 
 POSITION_OVERRIDES = {
+    # england
     "nathaniel clyne": "DF", "marcus rashford": "FW",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
-    "kai havertz":     "FW", "joshua kimmich":  "DF",
-    "marcelo herrera": "DF", "sean zawadzki":   "DF",
-    "claudio falcão":  "DF", "yan couto":       "DF",
-    "vitor costa":     "DF",
+    # germany
+    "kai havertz": "FW", "joshua kimmich": "DF",
+    # argentina
+    "marcelo herrera": "DF", "nahuel molina": "DF",
+    # brazil
+    "claudio falcão": "DF", "yan couto": "DF",
+    "vitor costa": "DF", "vanderson": "DF",
+    "caio henrique oliveira silva": "DF",
+    # usa
+    "sean zawadzki": "DF", "timothy weah": "FW",
+    # belgium
+    "louis patris": "DF",
+    # croatia
+    "josip juranović": "DF",
+    # colombia
+    "daniel muñoz": "DF",
+    # senegal
+    "ismaila sarr": "FW", "el hadji malick diouf": "DF",
+    # morocco
+    "brahim díaz": "FW",
+    # portugal — fbref tags as MF but plays RB
+    "bernardo silva": "FW", "nuno mendes": "DF",
+    "flávio nazinho": "DF",
+    # france/spain
+    "désiré doué": "FW", "lamine yamal": "FW", "nico williams": "FW",
+    # misc fbref inconsistencies
+    "luca langoni": "DF",
 }
 
-# Score multipliers for players whose stats are suppressed by injury/move
 REPUTATION_BOOSTS = {
-    "marc-andré ter stegen": 1.25,  # injury-reduced seasons
-    "florian wirtz":         1.25,  # Liverpool move hurt 2526 score
-    "kai havertz":           1.20,  # 3.5 90s in 2526
-    "phil foden":            1.15,  # injury-reduced at Man City
-    "declan rice":           1.15,  # rotation reduced 90s
-    "luka modrić":           1.20,  # limited 90s in Serie A data
+    # germany
+    "marc-andré ter stegen": 1.25, "florian wirtz": 1.25,
+    "kai havertz": 1.20, "phil foden": 1.15, "declan rice": 1.15,
+    # croatia
+    "luka modrić": 1.20, "dominik livaković": 1.20, "josip juranović": 1.20,
+    # france
+    "rayan cherki": 1.20, "michael olise": 1.15, "désiré doué": 1.15,
+    "eduardo camavinga": 1.15,
+    # spain
+    "lamine yamal": 1.20, "nico williams": 1.15, "pedri": 1.20,
+    "gavi": 1.25, "fermín lópez": 1.15, "pau cubarsí": 1.20,
+    # argentina
+    "rodrigo de paul": 1.15, "nahuel molina": 1.15,
+    # belgium
+    "thibaut courtois": 1.90, "amadou onana": 1.15,  # courtois — full ACL wipeout 2526
+    "romelu lukaku": 1.15, "kevin de bruyne": 1.15,
+    # brazil
+    "ederson": 1.15, "gabriel magalhães": 1.15, "lucas paquetá": 1.15,
+    # colombia
+    "james rodríguez": 1.20,
+    # netherlands
+    "bart verbruggen": 1.20, "tijjani reijnders": 1.20, "frenkie de jong": 1.15,
+    "micky van de ven": 1.15,
+    # portugal
+    "vitinha": 1.20, "joão neves": 1.20, "bernardo silva": 1.20, "nuno mendes": 1.15,
+    # morocco
+    "brahim díaz": 2.00, "bilal el khannouss": 1.30, "nayef aguerd": 1.20,
+    # senegal
+    "ismaila sarr": 1.25, "sadio mané": 1.15,
+    # japan
+    "wataru endo": 1.20, "hiroki ito": 1.15,
+    # usa
+    "yunus musah": 1.20, "weston mckennie": 1.15, "timothy weah": 1.15,
 }
 
 
@@ -85,7 +139,7 @@ def apply_overrides(df):
     for name, mult in REPUTATION_BOOSTS.items():
         mask = df["player"].str.lower() == name
         if mask.any():
-            df.loc[mask, "weighted_score"] = (df.loc[mask, "weighted_score"] * mult).round(2)
+            df.loc[mask, "weighted_score"] = (df.loc[mask, "weighted_score"] * mult).clip(0, 100).round(2)
             n_boost += mask.sum()
     print(f"  {len(POSITION_OVERRIDES)} position overrides ({n_pos} rows)  |  "
           f"{len(REPUTATION_BOOSTS)} reputation boosts ({n_boost} rows)")
@@ -96,13 +150,11 @@ def get_candidate_pool(df, country, season=None):
     codes = COUNTRY_TO_CODES.get(country.lower(), [])
     if not codes:
         raise ValueError(f"Unknown country: {country}")
-
     pool = df[df["nation"].isin(codes)].copy()
     pool = pool[~pool["player"].str.lower().isin(EXCLUSIONS)]
     if season:
         pool = pool[pool["season"] == str(season)]
-
-    pool = pool.sort_values("weighted_score", ascending=False, na_position="last")
+    pool = pool.sort_values(["weighted_score", "season"], ascending=[False, False], na_position="last")
     pool = pool.drop_duplicates(subset=["player"], keep="first")
     print(f"  {country}: {len(pool)} eligible players")
     return pool
@@ -162,7 +214,6 @@ def run_selection(country, season=None, top_n=5):
             role  = "S" if row["pick"] == 1 else "B" if row["pick"] == 2 else " "
             score = f"{row['weighted_score']:.1f}" if pd.notna(row.get("weighted_score")) else "N/A"
             print(f"    {role} {row['pick']:>2}. {row['player']:<25} {row.get('team',''):<22} {score}")
-
         if top_n:
             print(f"\n    --- full {position} pool (top {top_n}) ---")
             for _, row in full_pool.head(top_n).iterrows():

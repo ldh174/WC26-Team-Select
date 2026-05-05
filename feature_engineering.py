@@ -26,16 +26,38 @@ GK_WEIGHTS = {
     "gk_pk_save_pct": 0.10, "on_off": 0.15,
 }
 
-# Players FBref misclassifies — corrected before scoring
+# Players FBref misclassifies
 OVERRIDES = {
+    # england
     "nathaniel clyne": "DF", "marcus rashford": "FW",
-    "kai havertz":     "FW", "joshua kimmich":  "DF",
     "oliver scarles":  "DF", "ryan sessegnon":  "DF",
-    "marcelo herrera": "DF", "sean zawadzki":   "DF",
-    "claudio falcão":  "DF", "yan couto":       "DF",
-    "vitor costa":     "DF", "vanderson":       "DF",
+    # germany
+    "kai havertz": "FW", "joshua kimmich": "DF",
+    # argentina
+    "marcelo herrera": "DF", "nahuel molina": "DF",
+    # brazil
+    "claudio falcão": "DF", "yan couto": "DF",
+    "vitor costa": "DF", "vanderson": "DF",
     "caio henrique oliveira silva": "DF",
-    "louis patris":    "DF", "luca langoni":    "DF",
+    # usa
+    "sean zawadzki": "DF", "timothy weah": "FW",
+    # belgium
+    "louis patris": "DF",
+    # croatia
+    "josip juranović": "DF",
+    # colombia
+    "daniel muñoz": "DF",
+    # senegal
+    "ismaila sarr": "FW", "el hadji malick diouf": "DF",
+    # morocco
+    "brahim díaz": "FW",
+    # portugal
+    "bernardo silva": "FW", "nuno mendes": "DF", "flávio nazinho": "DF",
+    # france/spain
+    "désiré doué": "FW", "lamine yamal": "FW", "nico williams": "FW",
+    "rayan cherki": "MF", "pedri": "MF", "gavi": "MF",
+    # misc
+    "luca langoni": "DF",
 }
 
 
@@ -206,6 +228,23 @@ def add_form_trend_bonus(df):
     df["form_trend_bonus"] = df["_tb"].round(2)
     df["weighted_score"]   = (df["weighted_score"] + df["form_trend_bonus"]).clip(0, 100).round(2)
     return df.drop(columns=["_tb"])
+
+
+def add_caps_multiplier(df):
+    if "nt_caps" not in df.columns:
+        return df
+
+    def caps_mult(caps):
+        if pd.isna(caps):
+            return 1.0
+        caps = max(0, caps)
+        if caps == 0:
+            return 0.92
+        return min(1.12, 0.92 + (caps / 100) * 0.20)
+
+    df["caps_multiplier"] = df["nt_caps"].apply(caps_mult).round(3)
+    df["weighted_score"]  = (df["weighted_score"] * df["caps_multiplier"]).clip(0, 100).round(2)
+    return df
 
 
 def main():

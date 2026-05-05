@@ -107,7 +107,12 @@ NUMERIC_COLS = [
 
 
 def load_all_csvs():
-    paths = glob.glob(os.path.join(DATA_DIR, "*.csv"))
+    SKIP = {
+        "master.csv", "features.csv",
+        "player_national_performances.csv", "player_profiles.csv",
+    }
+    paths = [p for p in glob.glob(os.path.join(DATA_DIR, "*.csv"))
+             if os.path.basename(p) not in SKIP]
     if not paths:
         raise FileNotFoundError(f"No CSV files found in '{DATA_DIR}'")
     frames = []

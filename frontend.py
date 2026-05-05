@@ -11,7 +11,7 @@ COUNTRY_MAP = {
 
 COUNTRIES = list(COUNTRY_MAP.keys())
 POSITIONS = ["GK", "DF", "MF", "FW"]
-CSV_DIR = "WC26-Team-Select/squads"
+CSV_DIR = "squads"
 
 MIN_SUBS = {"GK": 2, "DF": 2, "MF": 2, "FW": 2}
 
