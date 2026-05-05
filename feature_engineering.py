@@ -57,8 +57,8 @@ OVERRIDES = {
     # france
     "désiré doué": "FW", "rayan cherki": "MF",
     # spain
-    "lamine yamal": "FW", "nico williams": 
-    "FW","marcos llorente": "DF", "sergio gómez": "DF",
+    "lamine yamal": "FW", "nico williams": "FW", 
+    "marcos llorente": "DF", "sergio gómez": "DF",
     "pedri": "MF", "gavi": "MF",
     # usa
     "joe scally": "DF",
