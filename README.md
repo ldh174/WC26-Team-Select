@@ -25,18 +25,22 @@ pip install pandas numpy customtkinter matplotlib pillow --break-system-packages
 
 # How to Run
 ## Windows
-`python clean.py`\
-`python feature_engineering.py`\
-`python merge_caps.py`\
-`python select_squad.py --all`\
-`python frontend.py`
+```
+python clean.py
+python feature_engineering.py
+python merge_caps.py
+`python select_squad.py --all
+python frontend.py
+```
 
 ## macOS/Linux
-`python3 clean.py`\
-`python3 feature_engineering.py`\
-`python3 merge_caps.py`\
-`python3 select_squad.py --all`\
-`python3 frontend.py`
+```
+python3 clean.py
+python3 feature_engineering.py
+python3 merge_caps.py
+python3 select_squad.py --all
+python3 frontend.py
+```
 
 ## Extras
 ```
