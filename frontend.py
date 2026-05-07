@@ -151,39 +151,30 @@ class TitleScreen(ctk.CTkFrame):
             "After normalizing and cleaning the data, we developed an algorithm to output a weighted score "
             "that considers all sorts of facts about the players like their game time, fitness record, "
             "discipline record, and stats according to their position specifically.\n\n"
-
-            "    For individual positions, we used these formulas:\n"
-            "    Forward Score = 30% Goals + 15% Assists + 15% Shot Quality + 15% Involvement + 10% Shot Volume + 10% On/Off Impact − 5% Discipline\n"
-            "    Midfielder Score = 35% Goal Contributions + 20% Involvement + 10% Interceptions + 10% Tackles Won + 20% On/Off Impact − 5% Discipline\n"
-            "    Defender Score = 25% Tackles Won + 25% Interceptions + 20% Plus/Minus + 15% On/Off Impact − 10% Fouls − 5% Discipline\n"
-            "    Goalkeeper Score = 30% Save Percentage + 25% Goals Prevented + 20% Clean Sheets + 10% Penalty Save Percentage + 15% On/Off Impact\n"
-            "    These scores are then utilized in our general formula, which accounts for the league difficulty "
-            "(e.g. the English Premier League is very difficult compared to the Turkish Super League), how much we weigh each "
-            "of the three seasons, how reliable they were for each of those seasons, and if they've been in good form in the "
-            "matches leading up the World Cup:\n"
-            "    Final Score = (((Position Composite Score * League Difficulty Adjustment) normalized to 0–100) * "
-            "Season Recency Weights * Seasons Reliability Multiplier) + Form Trend Bonus\n\n"
-
             "    Frequent reiterations was done to the model to account for scenarios that data cannot "
             "predict: retirees were excluded, players who play a different position for the national team "
             "were considered, and players with lackluster club careers but great records with their national "
             "team were given special weighting.\n\n"
-
             "    We have provided several tools to aid with your national team selection: a ranking tab will "
             "tell, descending, who has the highest weighted score. The Team tab will tell you our model's "
             "starting 11, substitutes, and alternates that each national team manager should pursue. "
             "Additionally, we have provided a data visualization and head-to-head player comparison tab "
             "that will aid with further analysis.\n\n"
-
             "    By Laurent Drejaj and Reda Abdel-Aziz."
         )
+        method_tab = self.tabview.tab("Methodology")
+        method_tab.grid_columnconfigure(0, weight=1)
+        method_tab.grid_rowconfigure(0, weight=1)
+        method_scroll = ctk.CTkScrollableFrame(method_tab)
+        method_scroll.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        method_scroll.grid_columnconfigure(0, weight=1)
         ctk.CTkLabel(
-            self.tabview.tab("Methodology"),
+            method_scroll,
             text=methodology_text,
             font=("calibri", 16),
             wraplength=900,
             justify="left"
-        ).pack(pady=30, padx=30, anchor="w")
+        ).grid(row=0, column=0, pady=20, padx=20, sticky="w")
 
         self.build_rankings_tab()
         self.build_team_tab()
