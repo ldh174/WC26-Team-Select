@@ -29,7 +29,7 @@ pip install pandas numpy customtkinter matplotlib pillow --break-system-packages
 python clean.py
 python feature_engineering.py
 python merge_caps.py
-`python select_squad.py --all
+python select_squad.py --all
 python frontend.py
 ```
 
