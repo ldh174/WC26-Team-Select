@@ -5,17 +5,17 @@ Data driven software to help with World Cup 2026 national team callups.
 ## Windows
 `git clone https://github.com/ldh174/WC26-Team-Select.git`\
 `cd WC26-Team-Select`\
-`pip install pandas numpy customtkinter`
+`pip install pandas numpy customtkinter matplotlib`
 
 ## macOS
 `git clone https://github.com/ldh174/WC26-Team-Select.git`\
 `cd WC26-Team-Select`\
-`pip3 install pandas numpy customtkinter`
+`pip3 install pandas numpy customtkinter matplotlib`
 
 ## Linux
 `git clone https://github.com/ldh174/WC26-Team-Select.git`\
 `cd WC26-Team-Select`\
-`pip install pandas numpy customtkinter --break-system-packages`
+`pip install pandas numpy customtkinter matplotlib --break-system-packages`
 
 # How to Run
 ## Windows
